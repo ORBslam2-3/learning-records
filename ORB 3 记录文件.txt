@@ -1,0 +1,255 @@
+https://blog.csdn.net/weixin_56566649/article/details/124355140?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165120474716782388067564%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=165120474716782388067564&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-8-124355140.142^v9^control,157^v4^control&utm_term=ubuntu20.04%E5%AE%89%E8%A3%85pangolin0.5&spm=1018.2226.3001.4187
+用的是这个博客去配置运行ORB_SLAM2的环境
+
+
+在装opencv3.15时出现
+E: 无法定位软件包 libjasper-dev   问题
+
+使用命令：
+sudo add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
+sudo apt update
+sudo apt install libjasper1 libjasper-dev
+解决
+
+编译slam2时果然出现了预测到的问题
+因为之前都说过
+其中一个问题 是缺少头文件  加上就对了
+但是哈有一个问题显示是c++/9/..出现的  之前出现时我并没有解决  只是将其放在vscode里边就自动编译成功了
+
+所以决定下载 vscode 但是下载vscode又出现了问题 
+在官网下载异常缓慢，于是我决定命令行下载
+sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make
+结果下一步 sudo apt-get update ；出现了问题
+ （      错误:7 http://ppa.launchpad.net/ubuntu-desktop/ubuntu-make/ubuntu focal Release
+  404  Not Found [IP: 91.189.95.85 80]
+  E: 仓库 “http://ppa.launchpad.net/ubuntu-desktop/ubuntu-make/ubuntu focal Release” 没 Release 文件。
+    N: 无法安全地用该源进行更新，所以默认禁用该源。
+    N: 参见 apt-secure(8) 手册以了解仓库创建和用户配置方面的细节。       ）
+
+找到了一篇博客，与我的问题一样
+https://blog.csdn.net/qq_41873211/article/details/115323110?ops_request_misc=&request_id=&biz_id=102&utm_term=%E4%BD%BF%E7%94%A8sudo%20add-apt-repository%E5%91%BD%E4%BB%A4%E5%90%8E%E6%97%A0%E6%B3%95&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-2-115323110.142^v9^control,157^v4^control&spm=1018.2226.3001.4187
+
+果然我把在etc/apt/sources.list.d$ sudo rm ubuntu-desktop-ubuntu-ubuntu-make-focal.list
+执行后 就没问题了
+下边继续安装vscode
+
+配置slam2环境时；
+开始出现的问题无非就是
+出现usleep（）通过添加头文件就可以解决
+但是有一个问题 像这样
+error : /usr/include/c++/8/bits/stl_map.h:122:21: error: static assertion failed: std::map must have the same value_type as its allocator
+static_assert(is_same<typename _Alloc::value_type, value_type>::value,
+
+这个博客可以解决 应该只是一点g2o库的使用方式不同
+https://www.freesion.com/article/96671072666/
+将一部分改成这样就成功了
+typedef map<KeyFrame*,g2o::Sim3,std::less<KeyFrame*>,
+        Eigen::aligned_allocator<std::pair<KeyFrame *const, g2o::Sim3> > > KeyFrameAndPose;
+        
+ 就可以编译成功了
+ 
+ 在使用脚本做一个时间戳对齐时，由于环境为py2.7，没有自带numpy模块，所以使用脚本作对齐时出现了如下问题:             No module named numpy
+ 
+ 简单粗暴  直接 sudo apt-get install python-numpy
+ 这样可能是安到py2上了，预计在后边使用py3时可能会出现问题
+ 
+ 2022 5.2号  单目相机和RGB-D相机 环境都配置好了 而且顺利跑通
+ 
+ 5.3号：
+ 想运行一下long_house 这个数据集  出现段错误（核心以转储）
+ 错误原因显示是有一帧图像读取失败，不知道为什么，在rgb文件夹也找不到那张图片，于是将f3压缩包重新解压发现图片又出现了，再次运行，问题解决。
+ 压缩包解压可能会在过程中缺失数据，一定要注意，并检查！！！
+ 
+ 
+ 安装ros暂时使用博客如下：
+ https://blog.csdn.net/qq_44339029/article/details/120579608?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165232367216780357213544%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=165232367216780357213544&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-120579608-null-null.142^v9^control,157^v4^control&utm_term=ubuntu20.04%E5%AE%89%E8%A3%85ros&spm=1018.2226.3001.4187
+ 
+ 基本是没有问题的，在初始化时候会失败，按造他们的方法，找到最新地址就可以了
+ 
+ 安装微信qq使用以下博客：
+ https://blog.csdn.net/twq1689739507/article/details/119711600?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1-119711600-blog-115243047.pc_relevant_default&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1-119711600-blog-115243047.pc_relevant_default&utm_relevant_index=1
+因为要试一下往Github上传代码所以建了一个仓库
+ 我的企业微信是wangxudong@jshx-wh.cn  密码：wangxudong000   用来登陆公司的网页看代码 
+ 我自己创建了一个账户1006103577@qq.com   密码wangxudong000
+ 
+ 需要用到git 所以装了以下  命令如下：
+ Debian/Ubuntu
+For the latest stable version for your release of Debian/Ubuntu
+# apt-get install git
+
+For Ubuntu, this PPA provides the latest stable upstream Git version
+# add-apt-repository ppa:git-core/ppa # apt update; apt install git
+
+
+关于更新上传代码参考博客：
+https://blog.csdn.net/bu_xiang_tou_tu/article/details/118875863?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165242035316782425132834%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=165242035316782425132834&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_click~default-1-118875863-null-null.142^v9^control,157^v4^control&utm_term=github%E5%88%9B%E5%BB%BA%E4%BB%93%E5%BA%93&spm=1018.2226.3001.4187
+
+
+https://blog.csdn.net/qq_27512319/article/details/119932986?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165241275516780357218509%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=165241275516780357218509&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-119932986-null-null.142^v9^control,157^v4^control&utm_term=%E5%A6%82%E4%BD%95%E4%B8%8A%E4%BC%A0%E4%BB%A3%E7%A0%81%E5%88%B0github&spm=1018.2226.3001.4187
+也是上传文件的
+
+上传github上成功的
+
+接下来上传gitlab
+
+这篇博客讲解的比较详细哈哈
+https://blog.csdn.net/weixin_47552638/article/details/123364981?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165260750516782388050685%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=165260750516782388050685&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-123364981-null-null.142^v9^control,157^v4^control&utm_term=ubuntu%E4%B8%8A%E4%BC%A0%E4%BB%A3%E7%A0%81%E5%88%B0github&spm=1018.2226.3
+
+
+
+ssh nvidia@192.168.1.101   账户   首先连接ip
+目前主控制器ip是192.168.1.101  副控制器ip是192.168.1.103
+但是不知道什么原因
+副控制器无法打开ros节点    因此连上副控制的ip也无法看到后方毫米波雷达的数据
+
+export ROS_MASTER_URI=http://192.168.1.101:11311
+export ROS_IP=192.168.1.101
+export ROS_IP=192.168.1.1
+这是主的
+
+export ROS_MASTER_URI=http://192.168.1.101:11311
+export ROS_IP=192.168.1.101
+export ROS_IP=192.168.1.103   这是副的
+
+一般来说是可以通过rviz可视化工具去查看点云的但是只看到了前主激光雷达的点云
+补盲雷达点云打不开
+所以使用rostopic echo +话题   可以看到激光雷达数据
+
+rostopic hz +话题  看到频率  
+
+有一些命令
+scp 8x4.tar.bz2 nvidia@192.168.1.101:~/
+
+tar xvf +bz2(类型的压缩包)
+
+
+
+修复包在桌面
+scp update.zip update.sh nvidia@192.168.1.102:/tmp
+scp update.zip update_in104.sh nvidia@192.168.1.104:/tmp
+进入tmp下 
+bash updatesh  --102
+bash update_in104.sh  --104
+重启就可以
+本来搞完这些5号车是没有问题了
+但是陆工那边为了搞3号车做了时间同步结果5号车又不行了需要运行一个check_camera脚本
+需要在102下运行该脚本
+
+
+4号车camera_ros 下的是有8个驱动的
+但是1，5是部署在副控里边的   需要驱动camera_ros_bag 里边的1，5  才有图像
+
+
+
+
+等我将salm2代码仔细看完，就要跑配置一下，跑仿真和实物  很快就来到了
+实时运行  orbslam2 3   配置可以参考一下
+https://blog.csdn.net/zardforever123/article/details/125044004
+
+
+
+      --------------------------------ORB_SLAM3------------------------------------------------
+
+ROS 模式下的输入参数较少 用RGBD 举例
+rosrun ORB_SLAM3 RGBD /home/wangxudong/ORB_SLAM3_detailed_comments/Vocabulary/ORBvoc.txt /home/wangxudong/ORB_SLAM3_detailed_comments/Examples/RGB-D/TUM2.yaml
+
+播放一个bag
+rosbag play ...
+
+单目VIO跑 V103数据集
+./Examples/Monocular-Inertial/mono_inertial_euroc ./Vocabulary/ORBvoc.txt ./Examples/Monocular-Inertial/EuRoC.yaml /home/wangxudong/data/EUROC/ ./Examples/Monocular-Inertial/EuRoC_TimeStamps/V103.txt  dataset-V103——monoi
+
+
+用ORB2 跑了euroc MH_01 并将轨迹画出来与真值较一下
+./Examples/Monocular/mono_euroc Vocabulary/ORBvoc.txt Examples/Monocular/EuRoC.yaml /home/wangxudong/data/EUROC/MH_01_easy/mav0/cam0/data/ Examples/Monocular/EuRoC_TimeStamps/MH01.txt
+
+将轨迹放进一个目录  cp KeyFrameTrajectory.txt ./result/EUROC/MH_01_easy/MH01_ORB2.txt
+然后在数据集里将 groundtruth  cp data.csv ~/ORB_SLAM2_detailed_comments-master/result/EUROC/MH_01_easy/MH01_gt.csv
+将csv转化tum   evo_traj euroc MH01_gt.csv --save_as_tum
+
+最后可以出来轨迹图比较 
+evo_traj tum MH01_ORB2.txt --ref=MH01_gt.tum -p --plot -s --correct_scale -a --align
+
+用ORB3 跑了euroc MH_01 并将轨迹画出来与真值较一下
+./Examples/Monocular/mono_euroc ./Vocabulary/ORBvoc.txt ./Examples/Monocular/EuRoC.yaml /home/wangxudong/data/EUROC/MH_01_easy ./Examples/Monocular/EuRoC_TimeStamps/MH01.txt dataset-MH01_mono
+
+将轨迹放进一个目录  cp kf_dataset-MH01_mono.txt ~/ORB_SLAM2_detailed_comments-master/result/EUROC/MH_01_easy/MH01_ORB3.txt
+                           -----这个轨迹好像是和想象的不太一样，不能直接这样用
+                           
+---------------------ORB3保存的轨迹时间戳单位是纳秒，直接与EUROC里边groungtruth 用evo是不行的--------------
+
+我需要改一下代码里的时间戳那块，让他们保持一致，应该就可以画轨迹了
+为使结果能在evo中进行评估，需要修改文件夹下system.cc文件中的第584行、第592行、第638行和第647行（SaveTrajectoryEuroc和SaveKeyFrameTrajectoryEuroc函数），把1e9*(*lT)改成（*lT）,1e9*pKF改成pKF,改完示例如下：
+f << setprecision(6) << pKF->mTimeStamp << " " <<  setprecision(9) << t.at<float>(0) << " " << t.at<float>(1) << " " << t.at<float>(2) << " " << q[0] << " " << q[1] << " " << q[2] << " " << q[3] << endl;   
+
+改完后跑了一下 MH_01 将轨迹放进result里边的目录，但还是无法比较啊，不知道是为什么 
+Error:found no matching timestamps between reference and MH01_ORB3.txt with max. time diff 0.01 (s) and time offset 0.0 (s)
+好像还是格式问题       之前(没有改好而已，改好后没有问题，用的是 普通帧的轨迹图) 
+
+可以画出轨迹图
+evo_traj tum MH01_ORB3.txt --ref=MH01_gt.tum -p --plot -s --correct_scale -a --align
+
+----------------------------------------------------------------------------------------------------------
+---------------现在是有了 MH01_gt.tum MH01_ORB2.txt MH01_ORB3.txt----------------------------------------
+可以看一下误差 对比一下 (同样运行单目模式，ORB3也应该是比ORB2效果好)
+分别与MH01_gt.tum 比较出绝对误差 目前还不知道怎么评价这个东西 但是可以看到3的效果是比2好一点的  
+evo_ape tum MH01_gt.tum MH01_ORB2.txt  -va --plot --plot_mode xyz -s --save_results results/ape.zip
+evo_ape tum MH01_gt.tum MH01_ORB3.txt  -va --plot --plot_mode xyz -s --save_results results/ape.z
+相对误差
+evo_rpe tum MH01_gt.tum MH01_ORB3.txt  -va --plot --plot_mode xyz -s --save_results results/rpe.zip
+
+
+
+-----------------试一试ORB3里自带的评测工具  python版本好像有问题 用2和3都执行不了--------------------------
+python evaluation/evaluate_ate_scale.py evaluation/Ground_truth/EuRoC_left_cam/MH01_GT.txt f_dataset-MH01_stereo.txt --plot MH01_stereo.pdf  报错
+
+总结原因： 是需要用 python2 版本 但是2版本里没有matplotlib  需要先装一下pip 
+pip安装完成后直接 pip install matplotlib  就可以了(注意pip用的是python2的)
+
+pip install ... 用这个东西安装东西会比较慢 可以更换下载源 
+
+linux python 安装 pip出现 No module named 'setuptools'
+
+https://blog.csdn.net/m0_48108919/article/details/116718744?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522167000807916800182790585%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=167000807916800182790585&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-3-116718744-null-null.142^v67^control,201^v3^control_2,213^v2^t3_esquery_v3&utm_term=linux%20python2%20%E5%AE%89%E8%A3%85%20pip%E5%87%BA%E7%8E%B0%20No%20module%20named%20setuptools&spm=1018.2226.3001.4187
+
+
+------------------------------关于python版本的切换问题------------------------------
+
+使用update-alternatives来为整个系统更改Python版本
+
+第1步首先列出所有可用的python替代版本信息：  update-alternatives --list python
+第2步将Python的替代版本添加进去：(我的电脑有2.7 和3.8的，添加这两个个版本) 
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 2
+
+/usr/bin/python3.8设置的优先级为2，所以update-alternatives命令会自动将它设置为默认Python版本：
+不过没关系，可以手动选择版本 现在就可以在列出的Python替代版本中任意切换：
+sudo update-alternatives --config python
+设置完成
+python --version 查看现在的版本号
+
+多版本python安装pip
+https://blog.csdn.net/m0_48108919/article/details/116718744?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522167000807916800182790585%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=167000807916800182790585&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-3-116718744-null-null.142^v67^control,201^v3^control_2,213^v2^t3_esquery_v3&utm_term=linux%20python2%20%E5%AE%89%E8%A3%85%20pip%E5%87%BA%E7%8E%B0%20No%20module%20named%20setuptools&spm=1018.2226.3001.4187
+    我记得大概是先看一下python3.8里边的pip版本 在python2.7里装相同版本的pip 但是需要装一setuptools下边博客有安装地址：
+python2.7安装pip
+https://blog.csdn.net/weixin_43931358/article/details/106407616?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522167003534316782412536036%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=167003534316782412536036&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-2-106407616-null-null.142^v67^control,201^v3^control_2,213^v2^t3_esquery_v3&utm_term=python2.7%E5%AE%89%E8%A3%85pip&spm=1018.2226.3001.4187
+----------------------------------------------------------------------------------------------------------
+
+----------------------------运行高翔博士的稠密建图ORBSLAM2_with_pointcloud_ map版本-----------------------
+参考博客  ：
+https://blog.csdn.net/weixin_46596757/article/details/127528792?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522167006765816800213064631%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=167006765816800213064631&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-4-127528792-null-null.142^v67^control,201^v3^control_2,213^v2^t3_esquery_v3&utm_term=error%3A%20static%20assertion%20failed%3A%20FLOATING_POINT_ARGUMENT_PASSED__INTEGER_WAS_EXPECTED&spm=1018.2226.3001.4187
+
+目前已经编译通过可以正常运行，但是出来的稠密点云是黑白的,如果变成彩色的需要加东西  参考此博客改一下就是彩色的了
+https://blog.csdn.net/weixin_52379562/article/details/125940140?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522167012107616782388022294%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=167012107616782388022294&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-1-125940140-null-null.142^v67^control,201^v3^control_2,213^v2^t3_esquery_v3&utm_term=ORB%E7%A8%A0%E5%AF%86%E5%BB%BA%E5%9B%BE%E6%AE%B5%E9%94%99%E8%AF%AF&spm=1018.2226.3001.4187
+
+运行案例
+./bin/rgbd_tum Vocabulary/ORBvoc.txt Examples/RGB-D/TUM1.yaml /home/wangxudong/data/TUM/rgbd_dataset_freiburg3_long_office_household/ /home/wangxudong/data/TUM/rgbd_dataset_freiburg3_long_office_household/associations.txt
+
+./bin/rgbd_tum Vocabulary/ORBvoc.txt Examples/RGB-D/TUM1.yaml /home/wangxudong/data/TUM/rgbd_dataset_freiburg1_desk /home/wangxudong/data/TUM/rgbd_dataset_freiburg1_desk/associations.txt
+
+小白稠密建图网址
+https://github.com/tiantiandabaojian/ORB-SLAM2_RGBD_DENSE_MAP
+运行会有段错误，初步怀疑是 pcl库版本太高，暂时没有尝试更换
+----------------------高翔稠密建图运行完毕------------小白稠密建图有段错误-------------------------------
+
+
