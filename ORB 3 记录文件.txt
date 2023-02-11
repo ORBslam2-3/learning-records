@@ -252,4 +252,24 @@ https://github.com/tiantiandabaojian/ORB-SLAM2_RGBD_DENSE_MAP
 运行会有段错误，初步怀疑是 pcl库版本太高，暂时没有尝试更换
 ----------------------高翔稠密建图运行完毕------------小白稠密建图有段错误-------------------------------
 
+______________________________slambook2里的ch13代码调通--------------------------------------------------
+
+问题1： int Frontend::DetectFeatures() 函数中
+  current_frame_->features_left_ 为什么可以直接知道该图像的特征点对象数(并不是特征点数) 前边并没有对图像操作过
+  for (auto &feat : current_frame_->features_left_) {  // features_left_  指针变量是在哪里赋值的？？？
+        cv::rectangle(mask, feat->position_.pt - cv::Point2f(10, 10),
+                      feat->position_.pt + cv::Point2f(10, 10), 0, CV_FILLED);
+    }
+    这段循环是怎么结束的，作用是什么？？
+    是用来画一个矩形框将特征点包含进来，刚开始的时候是空的，后边有特征点了就会绘制出矩形框
+    
+      git commit -m "first commit"
+ 194  git branch -M main
+ 194  git remote add origin https://github.com/ORBslam2-3/learning-records.git
+ 194  git remote -v
+ 194  git push -u origin main
+ 194  git clone https://github.com/ORBslam2-3/learning-records.git
+
+
+
 
