@@ -263,12 +263,34 @@ ______________________________slambook2里的ch13代码调通-------------------
     这段循环是怎么结束的，作用是什么？？
     是用来画一个矩形框将特征点包含进来，刚开始的时候是空的，后边有特征点了就会绘制出矩形框
     
-      git commit -m "first commit"
- 194  git branch -M main
- 194  git remote add origin https://github.com/ORBslam2-3/learning-records.git
- 194  git remote -v
- 194  git push -u origin main
- 194  git clone https://github.com/ORBslam2-3/learning-records.git
+git commit -m ""
+git branch -M main
+git remote add origin https://github.com/ORBslam2-3/learning-records.git 建立过连接就不需要在添加了
+git remote -v
+git push -u origin main
+git clone https://github.com/ORBslam2-3/learning-records.git
+
+问题2： Dataset:: Init() 里边的 calib.txt 里边保存的投影矩阵取出内参但是为什么进行这样的运算才得出位移真值？？？
+	答：   https://zhuanlan.zhihu.com/p/452672948 参考这个知道calib.txt里是四个相机的投影矩阵
+	     首先每一帧都需要知道kitti数据里边的四个相机的参数
+	     K 0     R t     KR  Kt
+	     0 1  *  0 1  =  0   1    保存的投影矩阵，但是初始化是进来的第一帧是作为世界坐标系的所以 R=I 单位矩阵，所以直接取出来的就是 K(内参)，而取出来的三维向量其实是 Kt 所以真实的位移需要左边乘 K 的逆矩阵，在代码里都写好了。
+	
+知识星球里的slam专栏 有详细讲解ch13的代码，基本能满足所有的疑问，后期遗忘，可以观看
+------------------------------------------2023-2-11------------------------------------------------------
+接下来的的任务是以下几项
+1.参考高翔老师博客 实现rgbd-slam
+2.阅读论文 寻找创新点
+3.力扣刷题
+
+https://codenews.cc/chatgpt  对话
+
+暂时有一个想法就是提升动态环境下的orbslam3的鲁棒性，一般做法都是去除动态物体，利用其他部分的特征点完成跟踪以及建立地图，但是如果是在比如说是菜市场，或者上学放学的场景，基本上全是动态场景的话，如何识别或完成建图任务呢？？
+  做一个假设，如果系统监测到动态物体比较多的时候，是否可以融合别的传感器，减少大量的计算
+
+
+ 
+ 
 
 
 
