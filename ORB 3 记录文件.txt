@@ -293,6 +293,34 @@ https://codenews.cc/chatgpt  对话
 
 暂时有一个想法就是提升动态环境下的orbslam3的鲁棒性，一般做法都是去除动态物体，利用其他部分的特征点完成跟踪以及建立地图，但是如果是在比如说是菜市场，或者上学放学的场景，基本上全是动态场景的话，如何识别或完成建图任务呢？？
   做一个假设，如果系统监测到动态物体比较多的时候，是否可以融合别的传感器，减少大量的计算
+  
+https://blog.csdn.net/jiny_yang/article/details/115590451  动态场景下的语义SLAM的简单实现（基于YOLOv5目标检测）参考
+
+ 
+2023-2-19
+今天clone了一个dot-dynaslam的代码 并编译通过
+下载了一个数据集fr2-with-person  用orb2和dot-dyna slam 跑了一下
+试一试到底有什么区别，通过evo评估了一下
+
+evo_traj tum dot-dyna-fr2-person.txt --ref=fr2-person.txt -p --plot -s --correct_scale -a --align
+evo_traj tum orb2-fr2-person.txt --ref=fr2-person.txt -p --plot -s --correct_scale -a --align
+
+evo_rpe tum fr2-person.txt dot-dyna-fr2-person.txt  -va --plot --plot_mode xyz -s --save_results results/rpe.zip
+evo_rpe tum fr2-person.txt orb2-fr2-person.txt  -va --plot --plot_mode xyz -s --save_results results/rpe.zip
+
+evo_ape tum fr2-person.txt orb2-fr2-person.txt  -va --plot --plot_mode xyz -s --save_results results/ape.zip
+evo_ape tum fr2-person.txt dot-dyna-fr2-person.txt  -va --plot --plot_mode xyz -s --save_results results/ape.zip
+
+evo_res b.zip c.zip -p --save_table table1.csv
+
+提交文件时后突然出现了分支不同的问题
+截图明天看 大概问题是我在window提交过了一次，但是linux下的是为更新之前的，我又在里边编辑了新内容，所以会发生冲突  分支之间 之前没考虑这个问题
+
+突然发现我根本没有编译成功，因为需要在MaskCNN环境下，进行一系列操作，所以 需要重新来过
+https://blog.csdn.net/u013454780/article/details/126962050?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522167690806716782425635544%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=167690806716782425635544&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~baidu_landing_v2~default-4-126962050-null-null.142^v73^control,201^v4^add_ask,239^v2^insert_chatgpt&utm_term=dynaslam%E8%BF%90%E8%A1%8C&spm=1018.2226.3001.4187
+此博客较为详细
+
+但是我在安装conda就失败了，不知道根内存有没有关系，本来是有5个g，一下就给我干没了
 
 
  
