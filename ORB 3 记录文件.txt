@@ -233,6 +233,12 @@ https://blog.csdn.net/m0_48108919/article/details/116718744?ops_request_misc=%25
     我记得大概是先看一下python3.8里边的pip版本 在python2.7里装相同版本的pip 但是需要装一setuptools下边博客有安装地址：
 python2.7安装pip
 https://blog.csdn.net/weixin_43931358/article/details/106407616?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522167003534316782412536036%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=167003534316782412536036&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-2-106407616-null-null.142^v67^control,201^v3^control_2,213^v2^t3_esquery_v3&utm_term=python2.7%E5%AE%89%E8%A3%85pip&spm=1018.2226.3001.4187
+
+pip 安装东西会很慢总是超市，可以加入参数  -i+国内境像源
+sudo pip install scikit-image -i https://pypi.tuna.tsinghua.edu.cn/simple/
+安装一次还是找不到从新装一下
+pip install scikit-image --upgrade --user
+
 ----------------------------------------------------------------------------------------------------------
 
 ----------------------------运行高翔博士的稠密建图ORBSLAM2_with_pointcloud_ map版本-----------------------
@@ -293,8 +299,11 @@ https://codenews.cc/chatgpt  对话
 
 暂时有一个想法就是提升动态环境下的orbslam3的鲁棒性，一般做法都是去除动态物体，利用其他部分的特征点完成跟踪以及建立地图，但是如果是在比如说是菜市场，或者上学放学的场景，基本上全是动态场景的话，如何识别或完成建图任务呢？？
   做一个假设，如果系统监测到动态物体比较多的时候，是否可以融合别的传感器，减少大量的计算
-  
+ 
+投稿： 计算机工程与应用 Machines-MDPI
+
 https://blog.csdn.net/jiny_yang/article/details/115590451  动态场景下的语义SLAM的简单实现（基于YOLOv5目标检测）参考
+https://blog.csdn.net/ns2942826077/article/details/103723018  这个博主叫逆水独流，有一系列博客可以看，写得很好
 
  
 2023-2-19
@@ -323,6 +332,15 @@ https://blog.csdn.net/u013454780/article/details/126962050?ops_request_misc=%257
 但是我在安装conda就失败了，不知道根内存有没有关系，本来是有5个g，一下就给我干没了
 
 
+分别用orb2 orb3双目跑了0号kitti数据集 轨迹存放在CameraTrajectory.txt 里边了
+但是找不到groudtruth 找到的话 需要转成tum格式用evo评估一下看看误差情况
+参考此博客
+https://blog.csdn.net/qq_41246375/article/details/125412820
+
+python kitti_poses_and_timestamps_to_trajectory.py kitti路径/data_odometry_gray/dataset/KITTIOdometry_data_odometry_poses/dataset/poses/05.txt kitti路径/data_odometry_gray/dataset/sequences/05/times.txt kitti_05_gt.txt
+
+
+https://github.com/matterport/Mask_RCNN/releases/download/v2.0/mask_rcnn_coco.h5
  
  
 
