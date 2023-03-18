@@ -286,7 +286,7 @@ git config --global --unset http.proxy
 
 git config --global user.email "1006103577@qq.com"
 
-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 令牌
+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 令牌
 
 问题2： Dataset:: Init() 里边的 calib.txt 里边保存的投影矩阵取出内参但是为什么进行这样的运算才得出位移真值？？？
 	答：   https://zhuanlan.zhihu.com/p/452672948 参考这个知道calib.txt里是四个相机的投影矩阵
