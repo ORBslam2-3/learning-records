@@ -358,4 +358,4 @@ https://arxiv.org/search/?query=Dynamics+slam&searchtype=all&source=header  一�
 
 https://blog.csdn.net/weixin_59058976/article/details/121710474?spm=1001.2101.3001.6650.3&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-3-121710474-blog-121164485.pc_relevant_3mothn_strategy_recovery&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-3-121710474-blog-121164485.pc_relevant_3mothn_strategy_recovery&utm_relevant_index=6        一个orb3和2 跑kitti，euroc数据集并评估的博客
 
-
+https://chat.openai.com/chat?model=gpt-4  -----------------------plus  
