@@ -1,10 +1,4 @@
-./Examples/Stereo/stereo_kitti Vocabulary/ORBvoc.txt Examples/Stereo/Kaist25.yaml /media/wangxudong/xudong/KITTI-data/dataset/sequences/ur26/ ../output/urban26/
-
-
-
-
-
-
+./Examples/Stereo/stereo_kitti Vocabulary/ORBvoc.txt Examples/Stereo/yaml /media/wangxudong/xudong/KITTI-data/dataset/sequences/ur26/ ../output/urban26/
 
 
 
@@ -52,7 +46,7 @@
 经过验证 ape 没有啥变化，可能有对齐操作 -a -s   但是rpe变更小了，说明旋转一下可能是正确的
 将运行得到的 orb3.txt 或者 orbaddse.txt 经过脚本 orb3_transformed.py 处理就可以了
 
-
+当我使用命令
 
  
 
