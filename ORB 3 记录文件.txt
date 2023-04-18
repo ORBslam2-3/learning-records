@@ -150,7 +150,7 @@ https://blog.csdn.net/zardforever123/article/details/125044004
 
       --------------------------------ORB_SLAM3------------------------------------------------
 编译ros版本总是报错，让检查路径，但其实只是没有软连接
-sudo ln -s "PATH"/ORB_SLAM3/Examples/ROS/ORB_SLAM3 /opt/ros/melodic/share/ORB_SLAM3
+sudo ln -s "PATH"//ORB_SLAM3/Examples/ROS/ORB_SLAM3 /opt/ros/noetic/share/ORB_SLAM3
 输入后在 ./build_ros 就没有问题了
 
 
