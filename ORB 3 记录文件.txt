@@ -286,7 +286,7 @@ git config --global --unset http.proxy
 
 git config --global user.email "1006103577@qq.com"
 
-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 令牌4-18
+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 令牌4-18
 
 
 设置远程URL 
