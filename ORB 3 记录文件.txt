@@ -288,6 +288,11 @@ git config --global user.email "1006103577@qq.com"
 
 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 令牌4-18
 
+
+设置远程URL 
+git remote set-url origin https://你的访问令牌@github.com/你的用户名/你的仓库.git
+
+
 问题2： Dataset:: Init() 里边的 calib.txt 里边保存的投影矩阵取出内参但是为什么进行这样的运算才得出位移真值？？？
 	答：   https://zhuanlan.zhihu.com/p/452672948 参考这个知道calib.txt里是四个相机的投影矩阵
 	     首先每一帧都需要知道kitti数据里边的四个相机的参数
